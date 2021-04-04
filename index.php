@@ -114,8 +114,6 @@
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-        <div class="row">
-        </div>
 		  <div class="row">
           <div class="col-12">
             <div class="card">
@@ -174,7 +172,7 @@
 						<td class="text-center"><?php echo htmlspecialchars($row['categoryname']);?></td>
 						<td class="text-center"><?php echo htmlspecialchars($row['count']);?></td>
 						<td class="text-center"><?php echo htmlspecialchars($row['priceperitem']);?></td>
-						<td class="text-center"><?php echo htmlspecialchars(($row['brandname']));?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['brandname']);?></td>
 						<td>
 							<form name="edititem" action="edit.php" method="get">
 								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['iditems']);?>"/>

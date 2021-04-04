@@ -7,6 +7,7 @@
     <?php
         include ('../../required/connection.php');
         session_start();
+		$_SESSION['message'];
     ?>
     <title>Power Installation | Admin</title>
 
@@ -161,61 +162,65 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-        <div class="col-lg-6">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div><!-- /.card -->
-          </div>
-          <!-- /.col-md-6 -->
-          <div class="col-lg-6">
+          <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h5 class="m-0">Featured</h5>
+                <h3 class="card-title">Locations</h3>
+				  <div class="card-tools">
+				  	<a href="./add.php"><button type="button" class="btn btn-sm fa-pull-right btn-primary">Create Location</button></a>
+				  </div>
               </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Street</th>
+                      <th>Number</th>
+					  <th>Bus</th>
+					  <th>Zipcode</th>
+					  <th>City</th>
+					  <th>Country</th>
+					  <th>Edit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+					 $locations = "SELECT * FROM locations";
+					 
+					 $getlocations = mysqli_query($conn, $locations);
+					  
+					 if(! $getlocations) {
+						 die('Could not fetch data: '.mysqli_error($conn));
+					 }
+					 
+					  
+					 while($row = mysqli_fetch_assoc($getlocations)) {
+						 ?>
+					  <tr class="align-middle">
+					  	<td class="text-center"><?php echo htmlspecialchars($row['locname']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['street']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['number']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['bus']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['zipcode']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['city']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['country']);?></td>
+						<td>
+							<form name="edititem" action="edit.php" method="get">
+								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['idlocations']);?>"/>
+								<input type="submit" value="edit item"/>
+							</form>
+						</td>
+					  </tr>
+					 <?php };?>
+                  </tbody>
+                </table>
               </div>
+              <!-- /.card-body -->
             </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
+            <!-- /.card -->
           </div>
-          <!-- /.col-md-6 -->
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
