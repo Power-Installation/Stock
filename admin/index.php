@@ -7,6 +7,7 @@
     <?php
         include ('../required/connection.php');
         session_start();
+		$_SESSION['message'] = '';
     ?>
     <title>Power Installation | Admin</title>
 

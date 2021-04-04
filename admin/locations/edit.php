@@ -168,7 +168,7 @@
 						<h3 class="box-title">Add Location</h3>
                     </div>
 					<?php
-					$info = "SELECT * FROM locations where idlocations = $id";
+					$info = "SELECT * FROM locations where idlocations = '$id'";
 					$getinfo = mysqli_query($conn, $info);
 					
 					if(! $getinfo) {

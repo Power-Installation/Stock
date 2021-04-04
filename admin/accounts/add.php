@@ -160,11 +160,103 @@
 
     <!-- Main content -->
     <div class="content">
-      <div class="container-fluid">
-        <div class="row">
+        <div class="container-fluid">
+            <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+						<h3 class="box-title">Add Account</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="username" class="control-label">Username</label>
+                            <div>
+                                <input type="text" autocomplete="off" name="username" placeholder="Username" class="form-control" required/>
+                            </div>
+                        </div>
+        				<div class="form-group">
+                            <label for="firstname" class="control-label">First Name</label>
+                            <div>
+                                <input type="text" autocomplete="off" name="firstname" placeholder="First Name" class="form-control" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname" class="control-label">Last Name</label>
+                            <div>
+                                <input type="text" autocomplete="off" name="lastname" placeholder="Last Name" class="form-control" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthdate" class="control-label">Birth Date</label>
+                            <div>
+                                <input type="date" autocomplete="off" name="birthdate" placeholder="Birthdate" class="form-control" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="control-label">E-mail</label>
+                            <div>
+                                <input type="email" autocomplete="off" name="email" placeholder="E-mail" class="form-control" required/>
+                            </div>
+                        </div>
+        		        <div class="form-group">
+                            <label for="phonework" class="control-label">Phone Work</label>
+                            <div>
+                                <input type="tel" autocomplete="off" name="phonework" placeholder="Phone Work" class="form-control" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}" required/>
+                            </div>
+                        </div>
+				        <div class="form-group">
+                            <label for="phoneprivate" class="control-label">Phone Private</label>
+                            <div>
+                                <input type="tel" autocomplete="off" name="phoneprivate" placeholder="Phone Private" class="form-control" pattern="[0-9]{4}/[0-9]{2}.[0-9]{2}.[0-9]{2}"/>
+                            </div>
+                        </div>
+				        <div class="form-group">
+                            <label for="pass" class="control-label">Password</label>
+                            <div>
+                                <input type="password" autocomplete="off" name="pass" placeholder="Password" class="form-control" required/>
+                            </div>
+                        </div>
+				        <div class="form-group">
+                            <label for="pass2" class="control-label">Verify Password</label>
+                            <div>
+                                <input type="password" autocomplete="off" name="pass2" placeholder="Verify Password" class="form-control" required/>
+                            </div>
+                        </div>
+						<div class="form-group">
+                           	<label for="role" class="control-label">Role</label>
+                            <div>
+                                <select name="role" class="form-control">
+                                    <?php
+                                        $roles = 'SELECT * FROM roles';
+                                        $getroles = mysqli_query($conn, $roles);
+
+                                        if(! $getroles) {
+                                            die('Kon geen groepen inladen: '. mysqli_error($conn));
+                                        }
+
+									    while($row1 = mysqli_fetch_assoc($getroles)) {
+                                        ?>
+                                            <option value="<?php echo htmlspecialchars($row1['idRoles']); ?>"><?php echo htmlspecialchars($row1['rolename']); ?></option>
+                                        <?php   }
+                                        ?>
+                                </select>
+                            </div>
+                        </div>
+				        <div class="form-group">
+                            <label for="active" class="control-label">Active Account</label>
+                            <div>
+                                <select name="active" class="form-control" required/>
+									<option value="true">Yes</option>
+									<option value="false">No</option>
+								</select>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+    	        			<button type="submit" class="btn btn-success btn-sm">Create Account</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
   </div>
@@ -177,7 +269,36 @@
   </footer>
 </div>
 <!-- ./wrapper -->
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	if($_POST['pass'] == $_POST['pass2']) {
+        $username = $conn->real_escape_string($_POST['username']);
+        $firstname = $conn->real_escape_string($_POST['firstname']);
+        $lastname = $conn->real_escape_string($_POST['lastname']);
+		$birthdate = $conn->real_escape_string($_POST['birthdate']);
+		$email = $conn->real_escape_string($_POST['email']);	
+        $phonework = $conn->real_escape_string($_POST['phonework']);
+        $phoneprivate = $conn->real_escape_string($_POST['phoneprivate']);
+		$pass = $conn->password_hash($_POST['pass']);	
+		$role = $conn->real_escape_string($_POST['role']);
+        $active = $conn->real_escape_string($_POST['active']);
+		$registerdate = date("Y-m-d");
+		
+        $addaccount = "INSERT INTO accounts (firtsname, lastname, birthdate, email, phonework, phoneprivate, registerdate, password, username, idroles, active)"
+            . "VALUES ('$firstname', '$lastname', '$birthdate', '$email', '$phonework', '$phoneprivate', '$registerdate', '$pass', '$username', '$role', '$active')";
+		}
 
+        if ($conn->query($addaccount) === true) {
+            $_SESSION['message'] = "The account for $firstname $lastname has been created.";
+            header("location: ./index.php");
+        }
+        else {
+            $_SESSION['message'] = "Could not create the account for $firstname $lastname.";
+        }
+        mysqli_close($conn);
+    }
+
+?>
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->

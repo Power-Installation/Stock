@@ -7,7 +7,6 @@
     <?php
         include ('../../required/connection.php');
         session_start();
-		$_SESSION['message'];
     ?>
     <title>Power Installation | Admin</title>
 
@@ -195,7 +194,6 @@
 						 die('Could not fetch data: '.mysqli_error($conn));
 					 }
 					 
-					  
 					 while($row = mysqli_fetch_assoc($getlocations)) {
 						 ?>
 					  <tr class="align-middle">

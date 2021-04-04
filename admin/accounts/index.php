@@ -161,6 +161,68 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Accounts</h3>
+				  <div class="card-tools">
+				  	<a href="./add.php"><button type="button" class="btn btn-sm fa-pull-right btn-primary">Create Account</button></a>
+				  </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+					  <th>Username</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Birthdate</th>
+					  <th>E-mail</th>
+					  <th>Phone Work</th>
+					  <th>Phone Private</th>
+					  <th>Role</th>
+					  <th>Active</th>
+					  <th>Edit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+					 $accounts = "SELECT * FROM accounts INNER JOIN roles ON accounts.idroles = roles.idRoles";
+					 
+					 $getaccounts = mysqli_query($conn, $accounts);
+					  
+					 if(! $getaccounts) {
+						 die('Could not fetch data: '.mysqli_error($conn));
+					 }
+					 
+					  
+					 while($row = mysqli_fetch_assoc($getaccounts)) {
+						 ?>
+					  <tr class="align-middle">
+					  	<td class="text-center"><?php echo htmlspecialchars($row['username']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['firstname']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['lastname']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['birthdate']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['email']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['phonework']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['rolename']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['active']);?></td>
+						<td>
+							<form name="edititem" action="edit.php" method="get">
+								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['idAccounts']);?>"/>
+								<input type="submit" value="edit item"/>
+							</form>
+						</td>
+					  </tr>
+					 <?php };?>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
