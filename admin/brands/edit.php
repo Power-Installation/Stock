@@ -7,6 +7,7 @@
     <?php
         include ('../../required/connection.php');
         session_start();
+		$id = htmlspecialchars($_GET["id"]);
     ?>
     <title>Power Installation | Admin</title>
 
@@ -149,7 +150,8 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="../">Admin</a></li>
-              <li class="breadcrumb-item active">Brands</li>
+              <li class="breadcrumb-item"><a href="./">Brands</a></li>
+              <li class="breadcrumb-item active">Edit Brand</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -159,65 +161,54 @@
 
     <!-- Main content -->
     <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Brands</h3>
-				  <div class="card-tools">
-				  	<a href="./add.php"><button type="button" class="btn btn-sm fa-pull-right btn-primary">Create Brand</button></a>
-				  </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Website</th>
-                      <th>Logo</th>
-					  <th>Edit</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-					 $brands = "SELECT * FROM brands";
-					 
-					 $getbrands = mysqli_query($conn, $brands);
-					  
-					 if(! $getbrands) {
-						 die('Could not fetch data: '.mysqli_error($conn));
-					 }
-					 
-					 while($row = mysqli_fetch_assoc($getbrands)) {
-						 ?>
-					  <tr class="align-middle">
-					  	<td class="text-center"><?php echo htmlspecialchars($row['brandname']);?></td>
-						<td class="text-center"><?php echo htmlspecialchars($row['website']);?></td>
-						<td class="text-center"><?php 
-						 $logo = htmlspecialchars($row['logo']);
-						 $logo_src = "./logo/".$logo;?>
-						  <img src="<?php echo $logo_src;?>">
-						</td>						
-						<td>
-							<form name="editbrand" action="edit.php" method="get">
-								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['idbrands']);?>"/>
-								<input type="submit" value="edit item"/>
-							</form>
-						</td>
-					  </tr>
-					 <?php };?>
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
+        <div class="container-fluid">
+			<?php
+				$brands = "SELECT * FROM brands WHERE idbrands ='$id'";
+				$getbrands = mysqli_query($conn, $brands);
+			
+				if(! $getbrands) {
+					die('Could not fetch requested date: '.mysqli_error($conn));
+				}
+				while($row = mysqli_fetch_assoc($getbrands)) {
+					$brandname = htmlspecialchars($row['brandname']);
+					$website = htmlspecialchars($row['website']);
+					$logo = htmlspecialchars($row['logo']);
+				}
+			
+				$logo_src = "./logo/".$logo;
+			?>
+            <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+						<h3 class="box-title">Edit Brand</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="brandname" class="control-label">Name</label>
+                            <div>
+                                <input type="text" autocomplete="off" name="<?php echo $brandname;?>" placeholder="Brand Name" class="form-control" required/>
+                            </div>
+                        </div>
+        				<div class="form-group">
+                            <label for="website" class="control-label">Website url</label>
+                            <div>
+                                <input type="text" autocomplete="off" name="<?php echo $website;?>" placeholder="Website url" class="form-control" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="file" class="control-label">Logo</label>
+                            <div>
+                                <input type="file" autocomplete="off" name="file" valu="<?php echo $logo;?>" class="form-control"/>
+                            </div>
+							<img src='<?php echo $logo_src;?>'>
+                        </div>
+                        <div class="box-footer">
+    	        			<button type="submit" class="btn btn-success btn-sm" name="logo-upload">Add Brand</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
   </div>
@@ -230,7 +221,44 @@
   </footer>
 </div>
 <!-- ./wrapper -->
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		
+		$newname = $_FILES['file']['name'];
+  		$target_dir = "./logo/";
+  		$target_file = $target_dir . basename($_FILES["file"]["name"]);
+		$newbrand1 = $conn->real_escape_string($_POST['brandname']);
+    	$website1 = $conn->real_escape_string($_POST['website']);
 
+  		// Select file type
+		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+  		// Valid file extensions
+  		$extensions_arr = array("jpg","jpeg","png","gif");
+
+  		// Check extension
+  		if( in_array($imageFileType,$extensions_arr) ){
+ 
+     		// Insert record
+     		$addbrand = "UPDATE brands (brandname, website, logo) values('$brand', '$website','".$name."')";
+     		mysqli_query($con,$addbrand);
+  
+     		// Upload file
+     		move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name);
+
+  		}
+	
+		if ($conn->query($addbrand) === true) {
+			$_SESSION['message'] = "$brand has been created.";
+        	header("location: ./index.php");
+    	}
+    	else {
+        	$_SESSION['message'] = "$brand could not be created.";
+    	}
+    mysqli_close($conn);
+    }
+
+?>
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
