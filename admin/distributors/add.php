@@ -7,7 +7,6 @@
     <?php
         include ('../../required/connection.php');
         session_start();
-		$id = htmlspecialchars($_GET["id"]);
     ?>
     <title>Power Installation | Admin</title>
 
@@ -92,7 +91,7 @@
             </a>
           </li>
 		  <li class="nav-item">
-            <a href="../distributors/" class="nav-link">
+            <a href="./" class="nav-link active">
               <i class="nav-icon fas fa-truck-loading"></i>
               <p>
                 Distributors
@@ -100,7 +99,7 @@
             </a>
           </li>
 		  <li class="nav-item">
-            <a href="./" class="nav-link active">
+            <a href="../brands/" class="nav-link">
               <i class="nav-icon fas fa-cubes"></i>
               <p>
                 Brands
@@ -145,13 +144,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Brands</h1>
+            <h1 class="m-0">Distributors</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="../">Admin</a></li>
-              <li class="breadcrumb-item"><a href="./">Brands</a></li>
-              <li class="breadcrumb-item active">Edit Brand</li>
+			  <li class="breadcrumb-item"><a href="./">Distributors</a></li>
+              <li class="breadcrumb-item active">Add Distributor</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -162,55 +161,103 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-			<?php
-				$brands = "SELECT * FROM brands WHERE idbrands ='$id'";
-				$getbrands = mysqli_query($conn, $brands);
-			
-				if(! $getbrands) {
-					die('Could not fetch requested date: '.mysqli_error($conn));
-				}
-				while($row = mysqli_fetch_assoc($getbrands)) {
-					$brandname = htmlspecialchars($row['brandname']);
-					$website = htmlspecialchars($row['website']);
-					$logo = htmlspecialchars($row['logo']);
-				}
-			
-				$logo_src = "./logo/".$logo;
-			?>
             <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-						<h3 class="box-title">Edit Brand</h3>
+						<h3 class="box-title">Add Account</h3>
                     </div>
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="brandname" class="control-label">Name</label>
+                            <label for="username" class="control-label">Username</label>
                             <div>
-                                <input type="text" autocomplete="off" name="<?php echo $brandname;?>" placeholder="Brand Name" class="form-control" required/>
+                                <input type="text" autocomplete="off" name="username" placeholder="Username" class="form-control" required/>
                             </div>
                         </div>
         				<div class="form-group">
-                            <label for="website" class="control-label">Website url</label>
+                            <label for="firstname" class="control-label">First Name</label>
                             <div>
-                                <input type="text" autocomplete="off" name="<?php echo $website;?>" placeholder="Website url" class="form-control" required/>
+                                <input type="text" autocomplete="off" name="firstname" placeholder="First Name" class="form-control" required/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="file" class="control-label">Logo</label>
+                            <label for="lastname" class="control-label">Last Name</label>
                             <div>
-                                <input type="file" autocomplete="off" name="file" valu="<?php echo $logo;?>" class="form-control"/>
+                                <input type="text" autocomplete="off" name="lastname" placeholder="Last Name" class="form-control" required/>
                             </div>
-							<img src='<?php echo $logo_src;?>'>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthdate" class="control-label">Birth Date</label>
+                            <div>
+                                <input type="date" autocomplete="off" name="birthdate" placeholder="Birthdate" class="form-control" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="control-label">E-mail</label>
+                            <div>
+                                <input type="email" autocomplete="off" name="email" placeholder="E-mail" class="form-control" required/>
+                            </div>
+                        </div>
+        		        <div class="form-group">
+                            <label for="phonework" class="control-label">Phone Work</label>
+                            <div>
+                                <input type="tel" autocomplete="off" name="phonework" placeholder="Phone Work" class="form-control" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}" required/>
+                            </div>
+                        </div>
+				        <div class="form-group">
+                            <label for="phoneprivate" class="control-label">Phone Private</label>
+                            <div>
+                                <input type="tel" autocomplete="off" name="phoneprivate" placeholder="Phone Private" class="form-control" pattern="[0-9]{4}/[0-9]{2}.[0-9]{2}.[0-9]{2}"/>
+                            </div>
+                        </div>
+				        <div class="form-group">
+                            <label for="pass" class="control-label">Password</label>
+                            <div>
+                                <input type="password" autocomplete="off" name="pass" placeholder="Password" class="form-control" required/>
+                            </div>
+                        </div>
+				        <div class="form-group">
+                            <label for="pass2" class="control-label">Verify Password</label>
+                            <div>
+                                <input type="password" autocomplete="off" name="pass2" placeholder="Verify Password" class="form-control" required/>
+                            </div>
+                        </div>
+						<div class="form-group">
+                           	<label for="role" class="control-label">Role</label>
+                            <div>
+                                <select name="role" class="form-control">
+                                    <?php
+                                        $roles = 'SELECT * FROM roles';
+                                        $getroles = mysqli_query($conn, $roles);
+
+                                        if(! $getroles) {
+                                            die('Kon geen groepen inladen: '. mysqli_error($conn));
+                                        }
+
+									    while($row1 = mysqli_fetch_assoc($getroles)) {
+                                        ?>
+                                            <option value="<?php echo htmlspecialchars($row1['idRoles']); ?>"><?php echo htmlspecialchars($row1['rolename']); ?></option>
+                                        <?php   }
+                                        ?>
+                                </select>
+                            </div>
+                        </div>
+				        <div class="form-group">
+                            <label for="active" class="control-label">Active Account</label>
+                            <div>
+                                <select name="active" class="form-control" required/>
+									<option value="true">Yes</option>
+									<option value="false">No</option>
+								</select>
+                            </div>
                         </div>
                         <div class="box-footer">
-    	        			<button type="submit" class="btn btn-success btn-sm" name="logo-upload">Add Brand</button>
+    	        			<button type="submit" class="btn btn-success btn-sm">Create Account</button>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
@@ -221,44 +268,7 @@
   </footer>
 </div>
 <!-- ./wrapper -->
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		
-		$newname = $_FILES['file']['name'];
-  		$target_dir = "./logo/";
-  		$target_file = $target_dir . basename($_FILES["file"]["name"]);
-		$newbrand1 = $conn->real_escape_string($_POST['brandname']);
-    	$website1 = $conn->real_escape_string($_POST['website']);
 
-  		// Select file type
-		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-  		// Valid file extensions
-  		$extensions_arr = array("jpg","jpeg","png","gif");
-
-  		// Check extension
-  		if( in_array($imageFileType,$extensions_arr) ){
- 
-     		// Insert record
-     		$addbrand = "UPDATE brands SET brandname = '$newbrand1', website = '$website1', logo = '$newname' WHERE idbrands = '$id'";
-     		mysqli_query($con,$addbrand);
-  
-     		// Upload file
-     		move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name);
-
-  		}
-	
-		if ($conn->query($addbrand) === true) {
-			$_SESSION['message'] = "$brand has been updated.";
-        	header("location: ./index.php");
-    	}
-    	else {
-        	$_SESSION['message'] = "$brand could not be updated.";
-    	}
-    mysqli_close($conn);
-    }
-
-?>
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->

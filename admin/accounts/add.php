@@ -200,7 +200,7 @@
         		        <div class="form-group">
                             <label for="phonework" class="control-label">Phone Work</label>
                             <div>
-                                <input type="tel" autocomplete="off" name="phonework" placeholder="Phone Work" class="form-control" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}" required/>
+                                <input type="tel" autocomplete="off" name="phonework" placeholder="Phone Work" class="form-control" pattern="[0-9]{4}/[0-9]{2}.[0-9]{2}.[0-9]{2}" required/>
                             </div>
                         </div>
 				        <div class="form-group">
