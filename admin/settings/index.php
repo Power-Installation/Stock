@@ -159,11 +159,55 @@
 
     <!-- Main content -->
     <div class="content">
-      <div class="container-fluid">
-        <div class="row">
+        <div class="container-fluid">
+			<?php
+				$settings = "SELECT * FROM settings";
+				$getsettings = mysqli_query($conn, $settings);
+			
+				if(! $getsettings) {
+					die('Could not fetch requested data: '.mysqli_error($conn));
+				}
+				while($row = mysqli_fetch_assoc($getsettings)) {
+					$sitename = htmlspecialchars($row['sitename']);
+					$active = htmlspecialchars($row['active']);
+				}
+			?>
+            <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+						<h3 class="box-title">Site Settings</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="sitename" class="control-label">Site Name</label>
+                            <div>
+                                <input type="text" autocomplete="off" name="sitename" value="<?php echo $sitename;?>" class="form-control" required/>
+                            </div>
+                        </div>
+				        <div class="form-group">
+                            <label for="active" class="control-label">Website Active</label>
+                            <div>
+                                <select name="active" class="form-control" required/>
+									<?php 
+										if($active == 'true') { echo '
+											<option value="true" selected>Yes</option>
+											<option value="false">No</option>'
+									;}
+										else { echo '									
+											<option value="true">Yes</option>
+											<option value="false" selected>No</option>'
+									;}
+									?>
+								</select>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+    	        			<button type="submit" class="btn btn-success btn-sm">Update Settings</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
   </div>
@@ -176,7 +220,25 @@
   </footer>
 </div>
 <!-- ./wrapper -->
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		
+		$newsitename = $conn->real_escape_string($_POST['sitename']);
+    	$newactive = $conn->real_escape_string($_POST['active']);
+     	$updatesettings = "UPDATE settings SET active = '$newactive', sitename = '$newsitename'";
+     	mysqli_query($con,$updatesettings);
+	
+		if ($conn->query($updatesettings) === true) {
+			$_SESSION['message'] = "Settings have been updated.";
+        	header("location: ./index.php");
+    	}
+    	else {
+        	$_SESSION['message'] = "Settings have been updated.";
+    	}
+    mysqli_close($conn);
+    }
 
+?>
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
