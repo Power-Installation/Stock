@@ -1,7 +1,7 @@
 <?php 
-$host = "";
-$user = "";
-$password = "";
+$host = "remote.flanderscraft.be";
+$user = "powerinstallation";
+$password = "VTIkontich.02";
 $database = "pistock";
 
 $conn = new mysqli($host, $user, $password, $database);

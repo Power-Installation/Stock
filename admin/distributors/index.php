@@ -161,11 +161,64 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Brands</h3>
+				  <div class="card-tools">
+				  	<a href="./add.php"><button type="button" class="btn btn-sm fa-pull-right btn-primary">Create Brand</button></a>
+				  </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Website</th>
+                      <th>Logo</th>
+					  <th>Edit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+					 $brands = "SELECT * FROM brands";
+					 
+					 $getbrands = mysqli_query($conn, $brands);
+					  
+					 if(! $getbrands) {
+						 die('Could not fetch data: '.mysqli_error($conn));
+					 }
+					 
+					 while($row = mysqli_fetch_assoc($getbrands)) {
+						 ?>
+					  <tr class="align-middle">
+					  	<td class="text-center"><?php echo htmlspecialchars($row['brandname']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['website']);?></td>
+						<td class="text-center"><?php 
+						 $logo = htmlspecialchars($row['logo']);
+						 $logo_src = "./logo/".$logo;?>
+						  <img src="<?php echo $logo_src;?>">
+						</td>						
+						<td>
+							<form name="editbrand" action="edit.php" method="get">
+								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['idbrands']);?>"/>
+								<input type="submit" value="edit item"/>
+							</form>
+						</td>
+					  </tr>
+					 <?php };?>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
