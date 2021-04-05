@@ -240,7 +240,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   		if( in_array($imageFileType,$extensions_arr) ){
  
      		// Insert record
-     		$addbrand = "UPDATE brands (brandname, website, logo) values('$brand', '$website','".$name."')";
+     		$addbrand = "UPDATE brands SET brandname = '$newbrand1', website = '$website1', logo = '$newname' WHERE idbrands = '$id'";
      		mysqli_query($con,$addbrand);
   
      		// Upload file
@@ -249,11 +249,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   		}
 	
 		if ($conn->query($addbrand) === true) {
-			$_SESSION['message'] = "$brand has been created.";
+			$_SESSION['message'] = "$brand has been updated.";
         	header("location: ./index.php");
     	}
     	else {
-        	$_SESSION['message'] = "$brand could not be created.";
+        	$_SESSION['message'] = "$brand could not be updated.";
     	}
     mysqli_close($conn);
     }

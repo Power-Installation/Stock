@@ -201,7 +201,7 @@
 						<td>
 							<form name="editbrand" action="edit.php" method="get">
 								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['iddistributors']);?>"/>
-								<input type="submit" value="edit item"/>
+								<input type="submit" value="edit distributor"/>
 							</form>
 						</td>
 					  </tr>
