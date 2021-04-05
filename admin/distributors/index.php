@@ -166,7 +166,7 @@
               <div class="card-header">
                 <h3 class="card-title">Brands</h3>
 				  <div class="card-tools">
-				  	<a href="./add.php"><button type="button" class="btn btn-sm fa-pull-right btn-primary">Create Brand</button></a>
+				  	<a href="./add.php"><button type="button" class="btn btn-sm fa-pull-right btn-primary">Create Distributor</button></a>
 				  </div>
               </div>
               <!-- /.card-header -->
@@ -175,34 +175,32 @@
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Website</th>
-                      <th>Logo</th>
+                      <th>E-mail</th>
+                      <th>Phone</th>
+					  <th>Website</th>
 					  <th>Edit</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php
-					 $brands = "SELECT * FROM brands";
+					 $dists = "SELECT * FROM distributors";
 					 
-					 $getbrands = mysqli_query($conn, $brands);
+					 $getdists = mysqli_query($conn, $dists);
 					  
-					 if(! $getbrands) {
+					 if(! $getdists) {
 						 die('Could not fetch data: '.mysqli_error($conn));
 					 }
 					 
-					 while($row = mysqli_fetch_assoc($getbrands)) {
+					 while($row = mysqli_fetch_assoc($getdists)) {
 						 ?>
 					  <tr class="align-middle">
-					  	<td class="text-center"><?php echo htmlspecialchars($row['brandname']);?></td>
-						<td class="text-center"><?php echo htmlspecialchars($row['website']);?></td>
-						<td class="text-center"><?php 
-						 $logo = htmlspecialchars($row['logo']);
-						 $logo_src = "./logo/".$logo;?>
-						  <img src="<?php echo $logo_src;?>">
-						</td>						
+					  	<td class="text-center"><?php echo htmlspecialchars($row['distname']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['mail']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['phone']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['website']);?></td>									
 						<td>
 							<form name="editbrand" action="edit.php" method="get">
-								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['idbrands']);?>"/>
+								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['iddistributors']);?>"/>
 								<input type="submit" value="edit item"/>
 							</form>
 						</td>
