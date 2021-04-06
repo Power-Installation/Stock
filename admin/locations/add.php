@@ -83,7 +83,7 @@
             </a>
           </li>
 		  <li class="nav-item">
-            <a href="../locations/" class="nav-link">
+            <a href="./" class="nav-link active">
               <i class="nav-icon fas fa-industry"></i>
               <p>
                 Locations
@@ -91,7 +91,7 @@
             </a>
           </li>
 		  <li class="nav-item">
-            <a href="./" class="nav-link active">
+            <a href="../distributors/" class="nav-link">
               <i class="nav-icon fas fa-truck-loading"></i>
               <p>
                 Distributors
@@ -144,13 +144,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Distributors</h1>
+            <h1 class="m-0">Locations</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="../">Admin</a></li>
-              <li class="breadcrumb-item"><a href="./">Distributors</a></li>
-              <li class="breadcrumb-item active">Add Distributor</li>
+              <li class="breadcrumb-item"><a href="./">Locations</a></li>
+              <li class="breadcrumb-item active">Add Location</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -164,7 +164,7 @@
             <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-						<h3 class="box-title">Add Distributor</h3>
+						<h3 class="box-title">Add Location</h3>
                     </div>
                     <div class="box-body">
                         <div class="form-group">
@@ -209,26 +209,8 @@
                                 <input type="text" autocomplete="off" name="country" placeholder="Country" class="form-control"/>
                             </div>
                         </div>
-				        <div class="form-group">
-                            <label for="email" class="control-label">E-mail</label>
-                            <div>
-                                <input type="email" autocomplete="off" name="email" placeholder="Email" class="form-control"/>
-                            </div>
-                        </div>
-				        <div class="form-group">
-                            <label for="phone" class="control-label">Phone</label>
-                            <div>
-                                <input type="tel" autocomplete="off" name="phone" placeholder="Phone Number" class="form-control"/>
-                            </div>
-                        </div>
-				        <div class="form-group">
-                            <label for="website" class="control-label">Website</label>
-                            <div>
-                                <input type="url" autocomplete="off" name="website" placeholder="Website url" class="form-control"/>
-                            </div>
-                        </div>
                         <div class="box-footer">
-    	        			<button type="submit" class="btn btn-success btn-sm">Add Distributor</button>
+    	        			<button type="submit" class="btn btn-success btn-sm">Add Location</button>
                         </div>
                     </div>
                 </div>
@@ -247,27 +229,24 @@
 <!-- REQUIRED SCRIPTS -->
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $distname = $conn->real_escape_string($_POST['name']);
+        $locname = $conn->real_escape_string($_POST['name']);
         $street = $conn->real_escape_string($_POST['street']);
 		$number = $conn->real_escape_string($_POST['number']);
 		$bus = $conn->real_escape_string($_POST['addition']);	
         $zipcode = $conn->real_escape_string($_POST['zipcode']);
         $city = $conn->real_escape_string($_POST['city']);
 		$country = $conn->real_escape_string($_POST['country']);
-		$mail = $conn->real_escape_string($_POST['email']);
-		$phone = $conn->real_escape_string($_POST['phone']);
-		$website = $conn->real_escape_string($_POST['website']);
-		
-        $adddistributor = "INSERT INTO locations (distname, street, number, bus, zipcode, city, country, mail, phone, website)"
-            . "VALUES ('$locname', '$street', '$number', '$bus', '$zipcode', '$city', '$country', '$mail', '$phone', '$website')";
+
+        $addlocation = "INSERT INTO locations (locname, street, number, bus, zipcode, city, country)"
+            . "VALUES ('$locname', '$street', '$number', '$bus', '$zipcode', '$city', '$country')";
 		}
 
-        if ($conn->query($adddistributor) === true) {
-            $_SESSION['message'] = "$distname has been added.";
+        if ($conn->query($addlocation) === true) {
+            $_SESSION['message'] = "$locname has been added.";
             header("location: ./index.php");
         }
         else {
-            $_SESSION['message'] = "$distname could not be added";
+            $_SESSION['message'] = "$locname could not be added";
         }
         mysqli_close($conn);
 ?>
