@@ -165,7 +165,7 @@
             <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-						<h3 class="box-title">Add Location</h3>
+						<h3 class="box-title">Edit Location</h3>
                     </div>
 					<?php
 					$info = "SELECT * FROM locations where idlocations = '$id'";
@@ -176,7 +176,7 @@
 					}
 					while($row = mysqli_fetch_assoc($getinfo)) {
 						$name = htmlspecialchars($row['locname']);
-						$street = htmlspecialchars($row['streer']);
+						$street = htmlspecialchars($row['street']);
 						$number = htmlspecialchars($row['number']);
 						$bus = htmlspecialchars($row['bus']);
 						$zipcode = htmlspecialchars($row['zipcode']);
