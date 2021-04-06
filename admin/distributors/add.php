@@ -8,7 +8,7 @@
         include ('../../required/connection.php');
         session_start();
     ?>
-    <title>Power Installation | Admin</title>
+    <title><?php echo $company;?> | Admin</title>
 
   <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -46,7 +46,7 @@
     <!-- Brand Logo -->
     <a href="../../index.php" class="brand-link">
       <img src="../../img/logo.png" alt="PILogo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">PI Stock</span>
+      <span class="brand-text font-weight-light"><?php echo $sitename;?></span>
     </a>
 
     <!-- Sidebar -->
@@ -149,7 +149,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="../">Admin</a></li>
-			  <li class="breadcrumb-item"><a href="./">Distributors</a></li>
+              <li class="breadcrumb-item"><a href="./">Distributors</a></li>
               <li class="breadcrumb-item active">Add Distributor</li>
             </ol>
           </div><!-- /.col -->
@@ -164,94 +164,71 @@
             <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-						<h3 class="box-title">Add Account</h3>
+						<h3 class="box-title">Add Distributor</h3>
                     </div>
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="username" class="control-label">Username</label>
+                            <label for="name" class="control-label">Name</label>
                             <div>
-                                <input type="text" autocomplete="off" name="username" placeholder="Username" class="form-control" required/>
+                                <input type="text" autocomplete="off" name="name" placeholder="Location Name" class="form-control" required/>
                             </div>
                         </div>
         				<div class="form-group">
-                            <label for="firstname" class="control-label">First Name</label>
+                            <label for="street" class="control-label">Street</label>
                             <div>
-                                <input type="text" autocomplete="off" name="firstname" placeholder="First Name" class="form-control" required/>
+                                <input type="text" autocomplete="off" name="street" placeholder="Street" class="form-control" required/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="lastname" class="control-label">Last Name</label>
+                            <label for="number" class="control-label">Number</label>
                             <div>
-                                <input type="text" autocomplete="off" name="lastname" placeholder="Last Name" class="form-control" required/>
+                                <input type="text" autocomplete="off" name="number" placeholder="Number" class="form-control" required/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="birthdate" class="control-label">Birth Date</label>
+                            <label for="addition" class="control-label">Addition</label>
                             <div>
-                                <input type="date" autocomplete="off" name="birthdate" placeholder="Birthdate" class="form-control" required/>
+                                <input type="text" autocomplete="off" name="addition" placeholder="Addition" class="form-control" required/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="email" class="control-label">E-mail</label>
+                            <label for="zipcode" class="control-label">Zipcode</label>
                             <div>
-                                <input type="email" autocomplete="off" name="email" placeholder="E-mail" class="form-control" required/>
+                                <input type="text" autocomplete="off" name="zipcode" placeholder="Zipcode" class="form-control" required/>
                             </div>
                         </div>
         		        <div class="form-group">
-                            <label for="phonework" class="control-label">Phone Work</label>
+                            <label for="city" class="control-label">City</label>
                             <div>
-                                <input type="tel" autocomplete="off" name="phonework" placeholder="Phone Work" class="form-control" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}" required/>
+                                <input type="text" autocomplete="off" name="city" placeholder="City" class="form-control" required/>
                             </div>
                         </div>
 				        <div class="form-group">
-                            <label for="phoneprivate" class="control-label">Phone Private</label>
+                            <label for="country" class="control-label">Country</label>
                             <div>
-                                <input type="tel" autocomplete="off" name="phoneprivate" placeholder="Phone Private" class="form-control" pattern="[0-9]{4}/[0-9]{2}.[0-9]{2}.[0-9]{2}"/>
+                                <input type="text" autocomplete="off" name="country" placeholder="Country" class="form-control"/>
                             </div>
                         </div>
 				        <div class="form-group">
-                            <label for="pass" class="control-label">Password</label>
+                            <label for="email" class="control-label">E-mail</label>
                             <div>
-                                <input type="password" autocomplete="off" name="pass" placeholder="Password" class="form-control" required/>
+                                <input type="email" autocomplete="off" name="email" placeholder="Email" class="form-control"/>
                             </div>
                         </div>
 				        <div class="form-group">
-                            <label for="pass2" class="control-label">Verify Password</label>
+                            <label for="phone" class="control-label">Phone</label>
                             <div>
-                                <input type="password" autocomplete="off" name="pass2" placeholder="Verify Password" class="form-control" required/>
-                            </div>
-                        </div>
-						<div class="form-group">
-                           	<label for="role" class="control-label">Role</label>
-                            <div>
-                                <select name="role" class="form-control">
-                                    <?php
-                                        $roles = 'SELECT * FROM roles';
-                                        $getroles = mysqli_query($conn, $roles);
-
-                                        if(! $getroles) {
-                                            die('Kon geen groepen inladen: '. mysqli_error($conn));
-                                        }
-
-									    while($row1 = mysqli_fetch_assoc($getroles)) {
-                                        ?>
-                                            <option value="<?php echo htmlspecialchars($row1['idRoles']); ?>"><?php echo htmlspecialchars($row1['rolename']); ?></option>
-                                        <?php   }
-                                        ?>
-                                </select>
+                                <input type="tel" autocomplete="off" name="phone" placeholder="Phone Number" class="form-control"/>
                             </div>
                         </div>
 				        <div class="form-group">
-                            <label for="active" class="control-label">Active Account</label>
+                            <label for="website" class="control-label">Website</label>
                             <div>
-                                <select name="active" class="form-control" required/>
-									<option value="true">Yes</option>
-									<option value="false">No</option>
-								</select>
+                                <input type="url" autocomplete="off" name="website" placeholder="Website url" class="form-control"/>
                             </div>
                         </div>
                         <div class="box-footer">
-    	        			<button type="submit" class="btn btn-success btn-sm">Create Account</button>
+    	        			<button type="submit" class="btn btn-success btn-sm">Add Distributor</button>
                         </div>
                     </div>
                 </div>
@@ -260,17 +237,40 @@
     </div>
   </div>
   <!-- /.content-wrapper -->
-
   <!-- Main Footer -->
   <footer class="main-footer">
     <!-- Default to the left -->
 	<?php include('../../required/footer.php'); ?>
   </footer>
-</div>
 <!-- ./wrapper -->
-
+</div>
 <!-- REQUIRED SCRIPTS -->
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $distname = $conn->real_escape_string($_POST['name']);
+        $street = $conn->real_escape_string($_POST['street']);
+		$number = $conn->real_escape_string($_POST['number']);
+		$bus = $conn->real_escape_string($_POST['addition']);	
+        $zipcode = $conn->real_escape_string($_POST['zipcode']);
+        $city = $conn->real_escape_string($_POST['city']);
+		$country = $conn->real_escape_string($_POST['country']);
+		$mail = $conn->real_escape_string($_POST['email']);
+		$phone = $conn->real_escape_string($_POST['phone']);
+		$website = $conn->real_escape_string($_POST['website']);
+		
+        $adddistributor = "INSERT INTO locations (distname, street, number, bus, zipcode, city, country, mail, phone, website)"
+            . "VALUES ('$locname', '$street', '$number', '$bus', '$zipcode', '$city', '$country', '$mail', '$phone', '$website')";
+		}
 
+        if ($conn->query($adddistributor) === true) {
+            $_SESSION['message'] = "$distname has been added.";
+            header("location: ./index.php");
+        }
+        else {
+            $_SESSION['message'] = "$distname could not be added";
+        }
+        mysqli_close($conn);
+?>
 <!-- jQuery -->
 <script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->

@@ -9,7 +9,7 @@
         session_start();
 		$id = htmlspecialchars($_GET["id"]);
     ?>
-    <title>Power Installation | Admin</title>
+    <title><?php echo $company;?> | Admin</title>
 
   <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -47,7 +47,7 @@
     <!-- Brand Logo -->
     <a href="../../index.php" class="brand-link">
       <img src="../../img/logo.png" alt="PILogo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">PI Stock</span>
+      <span class="brand-text font-weight-light"><?php echo $sitename;?></span>
     </a>
 
     <!-- Sidebar -->
@@ -165,7 +165,7 @@
             <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-						<h3 class="box-title">Add Location</h3>
+						<h3 class="box-title">Edit Location</h3>
                     </div>
 					<?php
 					$info = "SELECT * FROM locations where idlocations = '$id'";
@@ -176,7 +176,7 @@
 					}
 					while($row = mysqli_fetch_assoc($getinfo)) {
 						$name = htmlspecialchars($row['locname']);
-						$street = htmlspecialchars($row['streer']);
+						$street = htmlspecialchars($row['street']);
 						$number = htmlspecialchars($row['number']);
 						$bus = htmlspecialchars($row['bus']);
 						$zipcode = htmlspecialchars($row['zipcode']);
