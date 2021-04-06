@@ -14,7 +14,7 @@ if (mysqli_connect_error()) {
 	echo "Failed to connect to Database: $database" . mysqli_connect_error();
 }
 
-$site = "SELECT sitename FROM settings";
+$site = "SELECT * FROM settings";
 $getsite = mysqli_query($conn, $site);
 
 if(! $getsite) {
@@ -22,5 +22,6 @@ if(! $getsite) {
 }
 while($row = mysqli_fetch_assoc($getsite)){
 	$sitename = htmlspecialchars($row['sitename']);
+	$company = htmlspecialchars($row['company']);
 }
 ?>

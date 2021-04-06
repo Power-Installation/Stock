@@ -8,7 +8,7 @@
         include ('../../required/connection.php');
         session_start();
     ?>
-    <title>Power Installation | Admin</title>
+    <title><?php echo $company;?> | Admin</title>
 
   <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -46,7 +46,7 @@
     <!-- Brand Logo -->
     <a href="../../index.php" class="brand-link">
       <img src="../../img/logo.png" alt="PILogo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">PI Stock</span>
+      <span class="brand-text font-weight-light"><?php echo $sitename;?></span>
     </a>
 
     <!-- Sidebar -->
@@ -170,6 +170,7 @@
 				while($row = mysqli_fetch_assoc($getsettings)) {
 					$sitename = htmlspecialchars($row['sitename']);
 					$active = htmlspecialchars($row['active']);
+					$company = htmlspecialchars($row['company']);
 				}
 			?>
             <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
@@ -182,6 +183,12 @@
                             <label for="sitename" class="control-label">Site Name</label>
                             <div>
                                 <input type="text" autocomplete="off" name="sitename" value="<?php echo $sitename;?>" class="form-control" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="company" class="control-label">Company Name</label>
+                            <div>
+                                <input type="text" autocomplete="off" name="company" value="<?php echo $company;?>" class="form-control" required/>
                             </div>
                         </div>
 				        <div class="form-group">
@@ -225,7 +232,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		
 		$newsitename = $conn->real_escape_string($_POST['sitename']);
     	$newactive = $conn->real_escape_string($_POST['active']);
-     	$updatesettings = "UPDATE settings SET active = '$newactive', sitename = '$newsitename'";
+		$newcompany = $conn->real_escape_string($_POST['company']);
+     	$updatesettings = "UPDATE settings SET active = '$newactive', sitename = '$newsitename', company = '$newcompany'";
      	mysqli_query($con,$updatesettings);
 	
 		if ($conn->query($updatesettings) === true) {

@@ -9,7 +9,7 @@
         session_start();
 		$id = htmlspecialchars($_GET["id"]);
     ?>
-    <title>Power Installation | Admin</title>
+    <title><?php echo $company;?> | Admin</title>
 
   <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -47,7 +47,7 @@
     <!-- Brand Logo -->
     <a href="../../index.php" class="brand-link">
       <img src="../../img/logo.png" alt="PILogo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">PI Stock</span>
+      <span class="brand-text font-weight-light"><?php echo $sitename;?></span>
     </a>
 
     <!-- Sidebar -->

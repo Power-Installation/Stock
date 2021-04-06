@@ -9,14 +9,14 @@
         session_start();
 		$_SESSION['message'] = '';
     ?>
-    <title>Power Installation | Admin</title>
+    <title><?php echo $company;?> | Admin</title>
 
   <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
-    <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -34,7 +34,7 @@
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
       <li class="nav-item">
-        <a class="nav-link" href="../">
+        <a class="nav-link" href="../../">
           <i class="fas fa-th-large"></i>
         </a>
       </li>
@@ -45,9 +45,9 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../index.php" class="brand-link">
-      <img src="../img/logo.png" alt="PILogo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">PI Stock</span>
+    <a href="../../index.php" class="brand-link">
+      <img src="../../img/logo.png" alt="PILogo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light"><?php echo $sitename;?></span>
     </a>
 
     <!-- Sidebar -->
