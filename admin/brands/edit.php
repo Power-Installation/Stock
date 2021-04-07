@@ -178,11 +178,11 @@
 				$logo_src = "./logo/".$logo;
 			?>
             <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-						<h3 class="box-title">Edit Brand</h3>
+                <div class="card card-primary">
+                    <div class="card-header with-border">
+						<h3 class="card-title">Edit Brand</h3>
                     </div>
-                    <div class="box-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label for="brandname" class="control-label">Name</label>
                             <div>

@@ -162,11 +162,11 @@
     <div class="content">
         <div class="container-fluid">
             <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-						<h3 class="box-title">Add Location</h3>
+                <div class="card card-primary">
+                    <div class="card-header with-border">
+						<h3 class="card-title">Add Location</h3>
                     </div>
-                    <div class="box-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label for="name" class="control-label">Name</label>
                             <div>
