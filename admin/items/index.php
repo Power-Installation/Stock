@@ -201,7 +201,7 @@
 						<td class="text-center"><?php echo htmlspecialchars($row['priceperitem']);?></td>									
 						<td>
 							<form name="editbrand" action="edit.php" method="get">
-								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['iditems']);?>"/>
+								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['idserial']);?>"/>
 								<input type="submit" value="edit distributor"/>
 							</form>
 						</td>
