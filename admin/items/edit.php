@@ -13,13 +13,26 @@
         $brandlist = "SELECT * FROM brands";
         $catlist = "SELECT * FROM categories";
         $unitlist = "SELECT * FROM unit";
-        $articlelist = "SELECT * FROM items INNER JOIN images ON items.idserial = images.idserial where iditems = '$id'";
+        $articlelist = "SELECT * FROM items INNER JOIN images ON items.serial = images.idserial where idserial = '$id'";
 
         $getdist = mysqli_query($conn, $distlist);
         $getbrand = mysqli_query($conn, $brandlist);
         $getcat = mysqli_query($conn, $catlist);
         $getunit = mysqli_query($conn, $unitlist);
         $getarticles = mysqli_query($conn, $articlelist);
+
+        if(! $getarticles) {
+          die('Could not retreive requested data: '.mysqli_error($conn));
+        }
+        while($row = mysqli_fetch_assoc($getarticles)) {
+          $article = htmlspecialchars($row['itemname']);
+          $description = htmlspecialchars($row['description']);
+          $priceperitem = htmlspecialchars($row['priceperitem']);
+          $quota = htmlspecialchars($row['quota']);
+          $serial = htmlspecialchars($row['serial']);
+          $image = htmlspecialchars($row['imgname']);
+        }
+        $defimage = "../../articles/".$image;
     ?>
     <title><?php echo $company;?> | Admin</title>
 
@@ -174,41 +187,38 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-            <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
-                <div class="card card-primary">
-                    <div class="card-header with-border">
-						<h3 class="card-title">Add Article</h3>
+            <div class="card-body">
+              <div class="row">
+                <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
+                  <div class="col-12 col-sm-6">
+                    <h3 class="d-inline-block d-sm-none">
+                      <?php echo $article;?>
+                    </h3>
+                    <div class="col-12">
+                      <img src="<?php echo $defimage;?>" class="product-image" alt="article image">
                     </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="articlename" class="control-label">Article Name</label>
-                            <div>
-                                <input type="text" autocomplete="off" name="articlename" placeholder="Article Name" class="form-control" required/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="dist" class="control-label">Distributor</label>
-                            <div>
-                                <select name="dist" class="form-control">
+                  </div>
+                  <div class="col-12 col-sm-6">
+                      <h3 class="my-3"><?php echo $article;?></h3>
+                      <div class="form-group">
+                          <label for="articlename" class="control-label">Article Name</label>
+                          <div>
+                            <input type="text" autocomplete="off" name="articlename" value="<?php echo $article;?>" class="form-control" required/>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="description" class="control-label">Description</label>
+                          <div>
+                            <input type="text" autocomplete="off" name="articlename" value="<?php echo $description;?>" class="form-control" required/>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="brand" class="control-label">Brand</label>
+                          <div>
+                            <select name="brand" class="form-control">
                                 <?php
                                   if (! $getdist) {
                                     die('Could not get distributors: '.mysqli_error($conn));
-                                  }
-                                  while($row = mysqli_fetch_assoc($getdist)) {
-                                    ?>
-                                    <option value="<?php echo htmlspecialchars($row['iddistributors']);?>"><?php echo htmlspecialchars($row['distname']);?></option>
-                                  <?php }
-                                ;?>
-                                </select>
-                            </div>
-                        </div>
-        				        <div class="form-group">
-                            <label for="brand" class="control-label">Brand</label>
-                            <div>
-                                <select name="brand" class="form-control">
-                                <?php
-                                  if (! $getbrand) {
-                                    die('Could not get brands: '.mysqli_error($conn));
                                   }
                                   while($row1 = mysqli_fetch_assoc($getbrand)) {
                                     ?>
@@ -216,76 +226,84 @@
                                   <?php }
                                 ;?>
                                 </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="category" class="control-label">Category</label>
-                            <div>
-                                <select name="category" class="form-control">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="dist" class="control-label">Distributor</label>
+                        <div>
+                          <select name="dist" class="form-control">
                                 <?php
-                                  if (! $getcat) {
-                                    die('Could not get categories: '.mysqli_error($conn));
+                                  if (! $getdist) {
+                                    die('Could not get distributors: '.mysqli_error($conn));
                                   }
-                                  while($row2 = mysqli_fetch_assoc($getcat)) {
+                                  while($row2 = mysqli_fetch_assoc($getdist)) {
                                     ?>
-                                    <option value="<?php echo htmlspecialchars($row2['idcategories']);?>"><?php echo htmlspecialchars($row2['categoryname']);?></option>
+                                    <option value="<?php echo htmlspecialchars($row2['iddistributors']);?>"><?php echo htmlspecialchars($row2['distname']);?></option>
                                   <?php }
                                 ;?>
-                                </select>
-                            </div>
+                          </select>
                         </div>
-                        <div class="form-group">
-                            <label for="unit" class="control-label">Unit</label>
-                            <div>
-                                <select name="unit" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label for="cat" class="control-label">Category</label>
+                          <div>
+                            <select name="cat" class="form-control">
+                                <?php
+                                  if (! $getdist) {
+                                    die('Could not get distributors: '.mysqli_error($conn));
+                                  }
+                                  while($row3 = mysqli_fetch_assoc($getcat)) {
+                                    ?>
+                                    <option value="<?php echo htmlspecialchars($row3['idcategories']);?>"><?php echo htmlspecialchars($row3['categoryname']);?></option>
+                                  <?php }
+                                ;?>
+                            </select>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="unit" class="control-label">Unit</label>
+                        <div>
+                          <select name="unit" class="form-control">
                                 <?php
                                   if (! $getunit) {
                                     die('Could not get distributors: '.mysqli_error($conn));
                                   }
-                                  while($row3 = mysqli_fetch_assoc($getunit)) {
+                                  while($row4 = mysqli_fetch_assoc($getunit)) {
                                     ?>
-                                    <option value="<?php echo htmlspecialchars($row3['idunit']);?>"><?php echo htmlspecialchars($row3['unitname']);?> (<?php echo htmlspecialchars($row3['shortname']);?>)</option>
+                                    <option value="<?php echo htmlspecialchars($row4['idunit']);?>"><?php echo htmlspecialchars($row4['unitname']);?> (<?php echo htmlspecialchars($row4['shortname']);?>)</option>
                                   <?php }
                                 ;?>
-                                </select>
-                            </div>
+                          </select>
                         </div>
-                        <div class="form-group">
-                            <label for="priceperitem" class="control-label">Price per Item</label>
-                            <div>
-                                <input type="text" autocomplete="off" name="priceperitem" placeholder="Price per Item" class="form-control" required/>
-                            </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="priceperitem" class="control-label">Price Per Item</label>
+                        <div>
+                          <input type="text" autocomplete="off" name="priceperitem" value="<?php echo $priceperitem;?>" class="form-control" required/>
                         </div>
-                        <div class="form-group">
-                            <label for="quota" class="control-label">Minimum Quota</label>
-                            <div>
-                                <input type="text" autocomplete="off" name="quota" placeholder="Minimum Quota" class="form-control" required/>
-                            </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="serial" class="control-label">Serial</label>
+                        <div>
+                          <input type="text" autocomplete="off" name="serial" value="<?php echo $serial;?>" class="form-control" required/>
                         </div>
-                        <div class="form-group">
-                            <label for="serial" class="control-label">Internal Serial Number</label>
-                            <div>
-                                <input type="text" autocomplete="off" name="serial" placeholder="Internal Serial Number" class="form-control" required/>
-                            </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="quota" class="control-label">Minimum quota</label>
+                        <div>
+                          <input type="text" autocomplete="off" name="quota" value="<?php echo $quota;?>" class="form-control" required/>
                         </div>
-                        <div class="form-group">
-                            <label for="articledesc" class="control-label">Article Description</label>
-                            <div>
-                                <input type="text" autocomplete="off" name="articledesc" placeholder="Addition" class="form-control" required/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="image" class="control-label">Image</label>
+                      </div>                      
+                      <div class="form-group">
+                            <label for="image" class="control-label">Change Image</label>
                             <div>
                                 <input type="file" autocomplete="off" name="image" class="form-control"/>
                             </div>
                         </div>
-                        <div class="box-footer">
-    	        			<button type="submit" class="btn btn-success btn-sm">Add Article</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+                  </div>
+                </form>
+              </div>
+            </div>
         </div>
     </div>
   </div>
@@ -301,47 +319,45 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if(empty($_POST['image'])) {
-    $articlename = $conn->real_escape_string($_POST['articlename']);
-    $brand = $conn->real_escape_string($_POST['brand']);
-		$distributor = $conn->real_escape_string($_POST['dist']);
-		$unit = $conn->real_escape_string($_POST['unit']);	
-    $priceperitem = $conn->real_escape_string($_POST['priceperitem']);
-    $category = $conn->real_escape_string($_POST['category']);
-    $description = $conn->real_escape_string($_POST['articledesc']);
-    $quota = $conn->real_escape_string($_POST['quota']);
-    $serial = $conn->real_escape_string($_POST['serial']);
+    $newarticle = $conn->real_escape_string($_POST['articlename']);
+    $newbrand = $conn->real_escape_string($_POST['brand']);
+		$newdist = $conn->real_escape_string($_POST['dist']);
+		$newunit = $conn->real_escape_string($_POST['unit']);	
+    $newpriceperitem = $conn->real_escape_string($_POST['priceperitem']);
+    $newcategory = $conn->real_escape_string($_POST['category']);
+    $newdesc = $conn->real_escape_string($_POST['articledesc']);
+    $newquota = $conn->real_escape_string($_POST['quota']);
+    $newserial = $conn->real_escape_string($_POST['serial']);
 		
-    $altaddarticle = "INSERT INTO items (itemname, description, idcategories, priceperitem, iddistributors, idbrand, quota, idunit, idserial)"
-            . "VALUES ('$articlename', '$description', '$category', '$priceperitem', '$distributor', '$brand', '$quota', '$unit', '$serial')";
-    $altartiimg = "INSERT INTO images (idserial)". "VALUS ('$serial')";
+    $updatealtaddarticle = "UPDATE items SET itemname = '$newarticle', description = '$newdesc', idcategories = '$newcategory', priceperitem = '$newpriceperitem', iddistributors = '$newdist', idbrand = '$newbrand', quota = '$newquota', idunit = '$newunit', idserial = '$newserial' WHERE idserial = '$id'";
+    $updatealtartiimg = "UPDATE images SET idserial = '$newserial' WHERE idserial = '$id'";
 
-    if ($conn->query($altaddarticle) && $conn->query($altartiimg) === true) {
-      $_SESSION['message'] = "$articlename has been added.";
+    if ($conn->query($updatealtaddarticle) && $conn->query($updatealtartiimg) === true) {
+      $_SESSION['message'] = "$articlename has been updated to $newarticle.";
       header("location: ./index.php");
     }
     else {
-      $_SESSION['message'] = "$articlename could not be added";
+      $_SESSION['message'] = "$articlename could not be update to $newarticle.";
     }
   mysqli_close($conn);
   }
   else {
-    $articlename = $conn->real_escape_string($_POST['articlename']);
-    $brand = $conn->real_escape_string($_POST['brand']);
-		$distributor = $conn->real_escape_string($_POST['dist']);
-		$unit = $conn->real_escape_string($_POST['unit']);	
-    $priceperitem = $conn->real_escape_string($_POST['priceperitem']);
-    $category = $conn->real_escape_string($_POST['category']);
-    $description = $conn->real_escape_string($_POST['articledesc']);
-    $quota = $conn->real_escape_string($_POST['quota']);
-    $serial = $conn->real_escape_string($_POST['serial']);
+    $newarticle = $conn->real_escape_string($_POST['articlename']);
+    $newbrand = $conn->real_escape_string($_POST['brand']);
+		$newdist = $conn->real_escape_string($_POST['dist']);
+		$newunit = $conn->real_escape_string($_POST['unit']);	
+    $newpriceperitem = $conn->real_escape_string($_POST['priceperitem']);
+    $newcategory = $conn->real_escape_string($_POST['category']);
+    $newdesc = $conn->real_escape_string($_POST['articledesc']);
+    $newquota = $conn->real_escape_string($_POST['quota']);
+    $newserial = $conn->real_escape_string($_POST['serial']);
 
-    $name = $_FILES['file']['name'];
+    $newname = $_FILES['file']['name'];
   	$target_dir = "../../img/articles/";
   	$target_file = $target_dir . basename($_FILES["file"]["name"]);
 		
-    $addarticle = "INSERT INTO items (itemname, description, idcategories, priceperitem, iddistributors, idbrand, quota, idunit, idserial)"
-            . "VALUES ('$articlename', '$description', '$category', '$priceperitem', '$distributor', '$brand', '$quota', '$unit', '$serial')";
-    $artiimg = "INSERT INTO images (imgname, idserial)". "VALUS ('$name', '$serial')";
+    $updatearticle = "UPDATE items SET itemname = '$newarticle', description = '$newdesc', idcategories = '$newcategory', priceperitem = '$newpriceperitem', iddistributors = '$newdist', idbrand = '$newbrand', quota = '$newquota', idunit = '$newunit', idserial = '$newserial' WHERE idserial = '$id'";
+    $updateartiimg = "UPDATE images SET imgname = '$newname', idserial = '$newserial' WHERE idserial = '$id'";
 
     // Select file type
 		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -353,8 +369,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if( in_array($imageFileType,$extensions_arr) ){
 
       // Insert record
-      $sql1 = mysqli_query($conn,$artiimg);
-      $sql2 = mysqli_query($conn, $addarticle);
+      $sql1 = mysqli_query($conn, $updateartiimg);
+      $sql2 = mysqli_query($conn, $updateaddarticle);
 
       // Upload file
       move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name);
@@ -362,11 +378,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
   if ($sql1 && $sql2 === true) {
-    $_SESSION['message'] = "$articlename has been created.";
+    $_SESSION['message'] = "$articlename has been updated to $newarticle.";
         header("location: ./index.php");
     }
     else {
-        $_SESSION['message'] = "$articlename could not be created.";
+        $_SESSION['message'] = "$articlename could not be updated to $newarticle.";
     }
   mysqli_close($conn);
   }

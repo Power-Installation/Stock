@@ -310,7 +310,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		
     $altaddarticle = "INSERT INTO items (itemname, description, idcategories, priceperitem, iddistributors, idbrand, quota, idunit, idserial)"
             . "VALUES ('$articlename', '$description', '$category', '$priceperitem', '$distributor', '$brand', '$quota', '$unit', '$serial')";
-    $altartiimg = "INSERT INTO images (idserial)". "VALUS ('$serial')";
+    $altartiimg = "INSERT INTO images (idserial)". "VALUES ('$serial')";
 
     if ($conn->query($altaddarticle) && $conn->query($altartiimg) === true) {
       $_SESSION['message'] = "$articlename has been added.";
@@ -338,7 +338,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		
     $addarticle = "INSERT INTO items (itemname, description, idcategories, priceperitem, iddistributors, idbrand, quota, idunit, idserial)"
             . "VALUES ('$articlename', '$description', '$category', '$priceperitem', '$distributor', '$brand', '$quota', '$unit', '$serial')";
-    $artiimg = "INSERT INTO images (imgname, idserial)". "VALUS ('$name', '$serial')";
+    $artiimg = "INSERT INTO images (imgname, idserial)". "VALUES ('$name', '$serial')";
 
     // Select file type
 		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));

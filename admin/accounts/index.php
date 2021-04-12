@@ -209,9 +209,9 @@
 						<td class="text-center"><?php echo htmlspecialchars($row['rolename']);?></td>
 						<td class="text-center"><?php echo htmlspecialchars($row['active']);?></td>
 						<td>
-							<form name="edititem" action="edit.php" method="get">
+							<form name="id" action="edit.php" method="get">
 								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['idAccounts']);?>"/>
-								<input type="submit" value="edit item"/>
+								<input type="submit" value="edit account"/>
 							</form>
 						</td>
 					  </tr>

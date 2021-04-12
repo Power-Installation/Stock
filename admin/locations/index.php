@@ -205,9 +205,9 @@
 						<td class="text-center"><?php echo htmlspecialchars($row['city']);?></td>
 						<td class="text-center"><?php echo htmlspecialchars($row['country']);?></td>
 						<td>
-							<form name="edititem" action="edit.php" method="get">
+							<form name="id" action="edit.php" method="get">
 								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['idlocations']);?>"/>
-								<input type="submit" value="edit item"/>
+								<input type="submit" value="edit location"/>
 							</form>
 						</td>
 					  </tr>
