@@ -122,6 +122,14 @@
                 Articles
               </p>
             </a>
+          </li>          
+		  <li class="nav-item">
+            <a href="../unit" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+                Units
+              </p>
+            </a>
           </li>
 		  <li class="nav-item">
             <a href="../settings" class="nav-link">

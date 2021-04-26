@@ -75,7 +75,7 @@
             </a>
           </li>
 		  <li class="nav-item">
-            <a href="./" class="nav-link active">
+            <a href="../accounts/" class="nav-link">
               <i class="nav-icon fas fa-users-cog"></i>
               <p>
                 Accounts
@@ -123,7 +123,7 @@
             </a>
           </li>          
 		  <li class="nav-item">
-            <a href="../unit" class="nav-link">
+            <a href="./" class="nav-link active">
               <i class="nav-icon fas fa-cog"></i>
               <p>
                 Units
@@ -131,7 +131,7 @@
             </a>
           </li>
 		  <li class="nav-item">
-            <a href="../settings" class="nav-link">
+            <a href="../settings/" class="nav-link">
               <i class="nav-icon fas fa-cog"></i>
               <p>
                 Settings
@@ -152,12 +152,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Accounts</h1>
+            <h1 class="m-0">Units</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="../">Admin</a></li>
-              <li class="breadcrumb-item active">Accounts</li>
+              <li class="breadcrumb-item active">Units</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -167,73 +167,32 @@
 
     <!-- Main content -->
     <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Accounts</h3>
-				  <div class="card-tools">
-				  	<a href="./add.php"><button type="button" class="btn btn-sm fa-pull-right btn-primary">Create Account</button></a>
-				  </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                  <thead>
-                    <tr>
-					  <th>Username</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Birthdate</th>
-					  <th>E-mail</th>
-					  <th>Phone Work</th>
-					  <th>Phone Private</th>
-					  <th>Role</th>
-					  <th>Active</th>
-					  <th>Edit</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-					 $accounts = "SELECT * FROM accounts INNER JOIN roles ON accounts.idroles = roles.idRoles";
-					 
-					 $getaccounts = mysqli_query($conn, $accounts);
-					  
-					 if(! $getaccounts) {
-						 die('Could not fetch data: '.mysqli_error($conn));
-					 }
-					 
-					  
-					 while($row = mysqli_fetch_assoc($getaccounts)) {
-						 ?>
-					  <tr class="align-middle">
-					  	<td class="text-center"><?php echo htmlspecialchars($row['username']);?></td>
-						<td class="text-center"><?php echo htmlspecialchars($row['firstname']);?></td>
-						<td class="text-center"><?php echo htmlspecialchars($row['lastname']);?></td>
-						<td class="text-center"><?php echo htmlspecialchars($row['birthdate']);?></td>
-						<td class="text-center"><?php echo htmlspecialchars($row['email']);?></td>
-						<td class="text-center"><?php echo htmlspecialchars($row['phonework']);?></td>
-						<td class="text-center"><?php echo htmlspecialchars($row['rolename']);?></td>
-						<td class="text-center"><?php echo htmlspecialchars($row['active']);?></td>
-						<td>
-							<form name="id" action="edit.php" method="get">
-								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['idAccounts']);?>"/>
-								<input type="submit" value="edit account"/>
-							</form>
-						</td>
-					  </tr>
-					 <?php };?>
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
+        <div class="container-fluid">
+            <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
+                <div class="card card-primary">
+                    <div class="card-header with-border">
+						<h3 class="card-title">Add Unit</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Name</label>
+                            <div>
+                                <input type="text" autocomplete="off" name="name" placeholder="Unit Name" class="form-control" required/>
+                            </div>
+                        </div>
+        				<div class="form-group">
+                            <label for="suffix" class="control-label">Suffix</label>
+                            <div>
+                                <input type="text" autocomplete="off" name="suffix" placeholder="Suffix" class="form-control" required/>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+    	        			<button type="submit" class="btn btn-success btn-sm">Add Unit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
   </div>
@@ -246,7 +205,25 @@
   </footer>
 </div>
 <!-- ./wrapper -->
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		
+		$unitname = $conn->real_escape_string($_POST['name']);
+    	$suffix = $conn->real_escape_string($_POST['suffix']);
+     	$addunit = "INSERT INTO unit (unitname, shortname)". "VALUES ('$unitname', '$suffix')";
+     	mysqli_query($con,$addunit);
+	
+		if ($conn->query($addunit) === true) {
+			$_SESSION['message'] = "$unitname has been created with following suffix: $suffix.";
+        	header("location: ./index.php");
+    	}
+    	else {
+        	$_SESSION['message'] = "$unitname could not be created with". mysqli_error($conn);
+    	}
+    mysqli_close($conn);
+    }
 
+?>
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
