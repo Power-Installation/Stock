@@ -121,6 +121,14 @@
                 Articles
               </p>
             </a>
+          </li>          
+		  <li class="nav-item">
+            <a href="../unit" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+                Units
+              </p>
+            </a>
           </li>
 		  <li class="nav-item">
             <a href="../settings" class="nav-link">
@@ -200,9 +208,9 @@
 						<td class="text-center"><?php echo htmlspecialchars($row['categoryname']);?></td>
 						<td class="text-center"><?php echo htmlspecialchars($row['priceperitem']);?></td>									
 						<td>
-							<form name="editbrand" action="edit.php" method="get">
-								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['iditems']);?>"/>
-								<input type="submit" value="edit distributor"/>
+							<form name="id" action="edit.php" method="get">
+								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['idserial']);?>"/>
+								<input type="submit" value="edit article"/>
 							</form>
 						</td>
 					  </tr>

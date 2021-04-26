@@ -122,6 +122,14 @@
                 Articles
               </p>
             </a>
+          </li>          
+		  <li class="nav-item">
+            <a href="../unit" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+                Units
+              </p>
+            </a>
           </li>
 		  <li class="nav-item">
             <a href="../settings" class="nav-link">
@@ -182,11 +190,11 @@
 					};
 					?>
             <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-						<h3 class="box-title">Modify Account</h3>
+                <div class="card card-primary">
+                    <div class="card-header with-border">
+						<h3 class="card-title">Modify Account</h3>
                     </div>
-                    <div class="box-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label for="username" class="control-label">Username</label>
                             <div>

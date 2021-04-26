@@ -121,6 +121,14 @@
                 Articles
               </p>
             </a>
+          </li>          
+		  <li class="nav-item">
+            <a href="../unit" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+                Units
+              </p>
+            </a>
           </li>
 		  <li class="nav-item">
             <a href="../settings" class="nav-link">
@@ -162,11 +170,11 @@
     <div class="content">
         <div class="container-fluid">
             <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-						<h3 class="box-title">Add Brand</h3>
+                <div class="card card-primary">
+                    <div class="card-header with-border">
+						<h3 class="card-title">Add Brand</h3>
                     </div>
-                    <div class="box-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label for="brandname" class="control-label">Name</label>
                             <div>
@@ -240,22 +248,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  
      		// Insert record
      		$addbrand = "INSERT INTO brands (brandname, website, logo) values('$brand1', '$website1','".$name."')";
-     		mysqli_query($con,$addbrand);
-  
-     		// Upload file
-     		move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name);
 
+         if ($conn->query($addbrand) === true) {
+          $_SESSION['message'] = "$brand1 has been created.";
+      
+          // Upload file
+          move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name);
+          header("location: ./index.php");
+          }
+          else {
+              $_SESSION['message'] = "$brand1 could not be created.";
+          }
+        mysqli_close($conn);
+        }
   		}
-	
-		if ($conn->query($addbrand) === true) {
-			$_SESSION['message'] = "$brand1 has been created.";
-        	header("location: ./index.php");
-    	}
-    	else {
-        	$_SESSION['message'] = "$brand1 could not be created.";
-    	}
-    mysqli_close($conn);
-    }
 }
 
 ?>

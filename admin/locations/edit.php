@@ -122,6 +122,14 @@
                 Articles
               </p>
             </a>
+          </li>          
+		  <li class="nav-item">
+            <a href="../unit" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+                Units
+              </p>
+            </a>
           </li>
 		  <li class="nav-item">
             <a href="../settings" class="nav-link">
@@ -163,9 +171,9 @@
     <div class="content">
         <div class="container-fluid">
             <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-						<h3 class="box-title">Edit Location</h3>
+                <div class="card card-primary">
+                    <div class="card-header with-border">
+						<h3 class="card-title">Edit Location</h3>
                     </div>
 					<?php
 					$info = "SELECT * FROM locations where idlocations = '$id'";
@@ -184,7 +192,7 @@
 						$country = htmlspecialchars($row['country']);
 					};
 					?>
-                    <div class="box-body">
+                    <div class="card-body">
                         <div class="form-group">
                             <label for="name" class="control-label">Name</label>
                             <div>
