@@ -5,3 +5,9 @@ _notes/
 /bower_components/
 /node_modules/
 required/connection.php
+
+default/
+
+register/
+
+pisite/
