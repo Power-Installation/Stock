@@ -169,12 +169,58 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Brands</h3>
+				  <div class="card-tools">
+				  	<a href="./add.php"><button type="button" class="btn btn-sm fa-pull-right btn-primary">Create Category</button></a>
+				  </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Category</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+					 $cat = "SELECT * FROM categories";
+					 
+					 $getcat = mysqli_query($conn, $cat);
+					  
+					 if(! $getcat) {
+						 die('Could not fetch data: '.mysqli_error($conn));
+					 }
+					 
+					 while($row = mysqli_fetch_assoc($getcat)) {
+						 ?>
+					  <tr class="align-middle">
+					  	<td class="text-center"><?php echo htmlspecialchars($row['idcategories']);?></td>
+						<td class="text-center"><?php echo htmlspecialchars($row['categoryname']);?></td>								
+						<td>
+							<form name="id" action="edit.php" method="get">
+								<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['idcategories']);?>"/>
+								<input type="submit" value="Edit Category"/>
+							</form>
+						</td>
+					  </tr>
+					 <?php };?>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content -->
-  </div>
+           </div>
   <!-- /.content-wrapper -->
 
   <!-- Main Footer -->

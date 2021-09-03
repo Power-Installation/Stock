@@ -173,9 +173,9 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Units</h3>
-				  <div class="card-tools">
+				  <!--<div class="card-tools">
 				  	<a href="./add.php"><button type="button" class="btn btn-sm fa-pull-right btn-primary">Create Unit</button></a>
-				  </div>
+				  </div>-->
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
@@ -200,23 +200,32 @@
            while($row = mysqli_fetch_assoc($getunits)) {
 						 ?>
 					  <tr class="align-middle">
-					  	<td class="text-center"><?php echo htmlspecialchars($row['idunit']);?></td>						
-              <td class="text-center"><?php echo htmlspecialchars($row['unitname']);?></td>
-						  <td class="text-center"><?php echo htmlspecialchars($row['shortname']);?></td>									
+					  	<td class="text-center"><?php echo $unitid = htmlspecialchars($row['idunit']);?></td>						
+              <td class="text-center"><input placeholder="<?php echo htmlspecialchars($row['unitname']);?>"></input></td>
+						  <td class="text-center"><input placeholder="<?php echo htmlspecialchars($row['shortname']);?>"></input></td>									
 						<td>
-							<form name="edit" action="<?php $_SERVER['PHP_SELF'];?>" method="post">
-								<input type="hidden" name="edit" value="<?php echo htmlspecialchars($row['idunit']);?>"/>
-								<input type="submit" value="Edit Unit"/>
+							<form id="edit" name="edit" action="<?php $_SERVER['PHP_SELF'];?>" method="post">
+								<button type="submit" class="btn btn-success btn-sm" value="<?php echo htmlspecialchars($row['idunit']);?>">Edit Unit</button>
 							</form>
 						</td>
             <td>
-              <form name="remove" action="<?php $_SERVER['PHP_SELF'];?>" method="post">
-                <input type="hidden" name="remove" value="<?php echo htmlspecialchars($row['idunit']);?>"/>
-                <input type="submit" value="Remove Unit"/>
+              <form id="remove" name="remove" action="<?php $_SERVER['PHP_SELF'];?>" method="post">
+                <button type="submit" class="btn btn-success btn-sm" value="<?php echo htmlspecialchars($row['idunit']);?>">Remove Unit</button>
               </form>
             </td>
 					  </tr>
 					 <?php };?>
+           <tr class="align-middle">
+            <td></td>
+            <form id="add" name="add" action="<?php $_SERVER['PHP_SELF'];?>" method="post">
+              <td><input type="text" name="unitname" autocomplete="off" placeholder="Unit Name" class="form-control" required/></td>
+              <td><input type="text" name="shortname" autocomplete="off" placeholder="Short Name" class="form-control" required/></td>
+              <td>
+								<button type="submit" class="btn btn-success btn-sm"?>Add Unit</button>
+              </td>
+              </form>
+              <td></td>
+           </tr>
                   </tbody>
                 </table>
               </div>
@@ -240,7 +249,45 @@
 </div>
 <!-- ./wrapper -->
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['edit']) {
+  $newunitname = $conn->real_escape_string($_POST['unitname']);
+  $newsuffix = $conn->real_escape_string($_POST['shortname']);
+
+  $updateunit = "UPDATE unit SET unitname = '$newunitname', shortname = '$newsuffix' WHERE idunit = $unitid";
+  mysqli_query($conn, $updateunit);
+
+if ($conn->query($updateunit) === true) {
+  $_SESSION['message'] = "Unit has been updated.";
+  header("location: ./index.php");
+}
+else {
+  $_SESSION['message'] = "Unit could not be updated.";
+}
+} elseif($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['remove']) {
+  $id = $conn->real_escape_string($_POST['id']);
+  $removeunit = "DELETE FROM unit where idunit = '$id'";
+  mysqli_query($conn, $removeunit);
+
+  if ($conn->query($removeunit) === true) {
+    $_SESSION['message'] = "Unit $id has been removed succesfully.";
+    header("location: ./index.php");
+}else {
+  $_SESSION['message'] = "Unit $unitid could not be updated.";
+} 
+}elseif($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['add']) {
+  $addunitname = $conn->real_escape_string($_POST['unitname']);
+  $addsuffix = $conn->real_escape_string($_POST['shortname']);
+  $addunit = "INSERT INTO unit (unitname, shortname)". "VALUES ('$addunitname', '$addsuffix')";
+  mysqli_query($conn, $addunit);
+
+  if ($conn->query($addunit) === true) {
+    $_SESSION['message'] = "Unit $addunitname has been created succesfully.";
+    header("location: ./index.php");
+}else {
+  $_SESSION['message'] = "Unit $$addunitname could not be created.";
+}
+}
+/*if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		
 		$newsitename = $conn->real_escape_string($_POST['sitename']);
     	$newactive = $conn->real_escape_string($_POST['active']);
@@ -256,7 +303,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         	$_SESSION['message'] = "Settings have been updated.";
     	}
     mysqli_close($conn);
-    }
+    }*/
 
 ?>
 <!-- REQUIRED SCRIPTS -->
